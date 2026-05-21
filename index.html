@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AL MUKIT-LAB</title>
+<meta name="description" content="A personalised architecture reading roadmap — built for you in 2 minutes. By Al Mukit.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ─────────── RESET ─────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #0a0a0a;
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+button { font-family: inherit; cursor: pointer; }
+input  { font-family: inherit; }
+
+/* ─────────── TOKENS ─────────── */
+:root {
+  --black:   #0a0a0a;
+  --white:   #ffffff;
+  --accent:  #d4790a;
+  --ink:     #1a1a1a;
+  --sub:     #6b6b6b;
+  --muted:   #9b9b9b;
+  --border:  #ebebeb;
+  --bg:      #fafafa;
+  --danger:  #dc2626;
+  --success: #16a34a;
+  --radius:  6px;
+  --shadow:  0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.04);
+}
+
+/* ─────────── PROGRESS ─────────── */
+#bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 2px; z-index: 999;
+  background: var(--border);
+}
+#bar-fill {
+  height: 100%;
+  background: var(--black);
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+
+/* ─────────── SCREENS ─────────── */
+.screen {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+  animation: fadeIn .3s ease;
+}
+.screen.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ══════════════════════════════════════
+   LANDING
+══════════════════════════════════════ */
+#land {
+  background: var(--white);
+  min-height: 100vh;
+}
+
+.land-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+.logo {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+  color: var(--black);
+}
+.logo span { color: var(--accent); }
+.land-pill {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--sub);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  border-radius: 99px;
+}
+
+/* Hero */
+.hero {
+  padding: 72px 24px 64px;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: #fff4e8;
+  border: 1px solid #ffd9a8;
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-bottom: 28px;
+}
+.hero-tag::before { content: '●'; font-size: 7px; }
+.hero-h {
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -2px;
+  color: var(--black);
+  margin-bottom: 20px;
+}
+.hero-h em { font-style: normal; color: var(--accent); }
+.hero-p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--sub);
+  max-width: 480px;
+  margin: 0 auto 36px;
+  font-weight: 400;
+}
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--black);
+  border: none;
+  padding: 15px 32px;
+  border-radius: var(--radius);
+  transition: all .2s;
+  letter-spacing: -.2px;
+}
+.hero-btn:hover {
+  background: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(212,121,10,.3);
+}
+.hero-btn svg { transition: transform .2s; }
+.hero-btn:hover svg { transform: translateX(3px); }
+.hero-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+/* Stats strip */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stat {
+  padding: 28px 16px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat-n {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: var(--black);
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-l {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* How it works */
+.how {
+  padding: 64px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.how-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 40px;
+}
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.how-card {
+  padding: 24px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.how-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.how-t {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.2px;
+  margin-bottom: 6px;
+}
+.how-b {
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.55;
+}
+
+/* ══════════════════════════════════════
+   ONBOARDING
+══════════════════════════════════════ */
+#ob {
+  background: var(--white);
+  min-height: 100vh;
+}
+
+.ob-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+.ob-logo { font-size: 13px; font-weight: 700; color: var(--black); }
+.ob-logo span { color: var(--accent); }
+
+/* step progress dots */
+.step-track {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.sdot {
+  height: 4px;
+  border-radius: 99px;
+  background: var(--border);
+  transition: all .35s cubic-bezier(.4,0,.2,1);
+  width: 20px;
+}
+.sdot.done { background: var(--black); }
+.sdot.now  { background: var(--black); width: 32px; }
+
+/* step exit/enter animation */
+.ob-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px 80px;
+}
+.ob-card {
+  width: 100%;
+  max-width: 520px;
+  animation: stepIn .3s cubic-bezier(.4,0,.2,1);
+}
+@keyframes stepIn {
+  from { opacity:0; transform: translateX(20px); }
+  to   { opacity:1; transform: none; }
+}
+
+.q-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.q-h {
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+.q-hint {
+  font-size: 13px;
+  color: var(--sub);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* text input */
+.q-input {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--black);
+  border: none;
+  border-bottom: 2px solid var(--border);
+  padding: 10px 0 12px;
+  background: transparent;
+  outline: none;
+  transition: border-color .2s;
+  letter-spacing: -.2px;
+}
+.q-input:focus { border-bottom-color: var(--black); }
+.q-input::placeholder { color: var(--border); font-weight: 400; }
+
+/* choice cards */
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .15s;
+  text-align: left;
+}
+.choice:hover {
+  border-color: var(--black);
+  background: var(--bg);
+}
+.choice.on {
+  border-color: var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+.choice.on .c-sub { color: rgba(255,255,255,.55); }
+.c-ico { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.c-body {}
+.c-title { font-size: 13px; font-weight: 700; letter-spacing: -.2px; margin-bottom: 2px; }
+.c-sub   { font-size: 11px; color: var(--sub); line-height: 1.4; }
+
+/* multi-select */
+.mpills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.mpill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: all .15s;
+}
+.mpill:hover { border-color: var(--black); }
+.mpill.on { border-color: var(--black); background: var(--bg); }
+.mpill-chk {
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  transition: all .15s;
+}
+.mpill.on .mpill-chk {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+
+/* nav */
+.q-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.btn-next {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -.1px;
+  color: var(--white);
+  background: var(--black);
+  border: none;
+  padding: 12px 22px;
+  border-radius: var(--radius);
+  transition: all .2s;
+}
+.btn-next:hover:not(:disabled) { background: var(--accent); }
+.btn-next:disabled { opacity: .3; cursor: not-allowed; }
+.btn-back {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sub);
+  background: none;
+  border: 1.5px solid var(--border);
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  transition: all .15s;
+}
+.btn-back:hover { border-color: var(--black); color: var(--black); }
+.btn-skip {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: none;
+  margin-left: auto;
+  padding: 4px;
+  transition: color .15s;
+}
+.btn-skip:hover { color: var(--black); }
+
+/* ══════════════════════════════════════
+   GENERATING
+══════════════════════════════════════ */
+#gen {
+  background: var(--white);
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.gen-inner {
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 360px;
+  width: 100%;
+}
+.gen-ring {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--black);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin: 0 auto 28px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.gen-h {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+}
+.gen-sub {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 36px;
+}
+.gen-steps {
+  list-style: none;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.gen-steps li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  transition: all .3s;
+}
+.gen-steps li:last-child { border-bottom: none; }
+.gen-steps li.act { color: var(--black); background: var(--bg); }
+.gen-steps li.dn  { color: var(--success); }
+.gen-ico { font-size: 12px; width: 14px; flex-shrink: 0; }
+.err-msg {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--danger);
+  margin-top: 16px;
+  display: none;
+  text-align: left;
+}
+
+/* ══════════════════════════════════════
+   RESULT
+══════════════════════════════════════ */
+#result {
+  background: var(--white);
+  min-height: 100vh;
+}
+
+.res-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.res-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -.4px;
+}
+.res-title em { font-style: normal; color: var(--accent); }
+.res-sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.res-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.res-btn {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: none;
+  color: var(--sub);
+  transition: all .15s;
+}
+.res-btn:hover { border-color: var(--black); color: var(--black); }
+.res-btn.dark  { background: var(--black); border-color: var(--black); color: #fff; }
+.res-btn.dark:hover { background: var(--accent); border-color: var(--accent); }
+
+.res-body {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* personal message */
+.msg-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 40px;
+}
+.msg-from {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.msg-from::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.msg-body {
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+/* section */
+.sec {
+  margin-bottom: 48px;
+}
+.sec-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+.sec-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.sec-h {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  color: var(--black);
+}
+
+/* profile grid */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.profile-cell {
+  padding: 16px 18px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.profile-cell:nth-child(3n) { border-right: none; }
+.profile-cell:nth-last-child(-n+3) { border-bottom: none; }
+.pc-l {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.pc-v {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: -.2px;
+}
+
+/* books */
+.book-item {
+  display: flex;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.book-item:last-child { border-bottom: none; }
+.bk-idx {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  width: 20px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.bk-content { flex: 1; min-width: 0; }
+.bk-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.bk-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+  color: var(--black);
+}
+.bk-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.bd-now  { background: var(--black);   color: #fff; }
+.bd-must { background: var(--border);  color: var(--black); }
+.bd-life { background: #fff4e8; color: var(--accent); border: 1px solid #ffd9a8; }
+.bd-hard { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+.bk-author { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.bk-why   { font-size: 13px; color: var(--sub);  line-height: 1.65; }
+.bk-how   { font-size: 12px; color: var(--accent); margin-top: 6px; font-weight: 500; }
+
+/* phases */
+.phase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.phase-card {
+  padding: 18px 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--black);
+}
+.ph-time  { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.ph-name  { font-size: 13px; font-weight: 700; letter-spacing: -.2px; margin-bottom: 6px; }
+.ph-books { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 6px; }
+.ph-mind  { font-size: 12px; color: var(--sub); line-height: 1.5; }
+.ph-start { font-size: 11px; font-weight: 700; color: var(--accent); margin-top: 8px; }
+
+/* week plan */
+.week-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.week-card {
+  padding: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.wk-day  { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.wk-task { font-size: 12px; color: var(--ink); line-height: 1.65; margin-bottom: 6px; }
+.wk-book { font-size: 12px; font-weight: 700; color: var(--black); }
+
+/* advice */
+.advice-card {
+  padding: 22px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+}
+.advice-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.advice-body  { font-size: 14px; color: var(--ink); line-height: 1.8; }
+.warn-card {
+  padding: 20px 24px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+}
+.warn-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--danger); margin-bottom: 6px; }
+.warn-body  { font-size: 13px; color: #7f1d1d; line-height: 1.7; }
+
+/* gap books */
+.gap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.gap-card {
+  padding: 16px 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.gap-lbl { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.gap-bk  { font-size: 12px; font-weight: 600; padding: 5px 0; border-bottom: 1px solid var(--border); line-height: 1.4; }
+.gap-bk:last-child { border-bottom: none; padding-bottom: 0; }
+.gap-auth { font-size: 10px; font-weight: 400; color: var(--muted); display: block; }
+
+/* section divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 40px 0 32px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+.divider span {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* share strip */
+.share-strip {
+  background: var(--black);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-align: center;
+  margin-top: 48px;
+}
+.share-h { font-size: 16px; font-weight: 800; letter-spacing: -.5px; color: #fff; margin-bottom: 6px; }
+.share-p { font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 20px; }
+.share-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.share-btn {
+  font-size: 11px; font-weight: 700; letter-spacing: .5px;
+  padding: 10px 18px; border-radius: var(--radius); border: none;
+  cursor: pointer; transition: all .15s;
+}
+.share-btn.light { background: #fff; color: var(--black); }
+.share-btn.light:hover { background: #e8e8e8; }
+.share-btn.ghost { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.15); }
+.share-btn.ghost:hover { background: rgba(255,255,255,.18); }
+
+/* ─── MOBILE ─── */
+@media (max-width: 600px) {
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .stat:nth-child(2) { border-right: none; }
+  .stat:nth-child(3) { border-top: 1px solid var(--border); }
+  .how-grid { grid-template-columns: 1fr; }
+  .hero-h { font-size: 30px; letter-spacing: -1.5px; }
+  .choices { grid-template-columns: 1fr; }
+  .mpills  { grid-template-columns: 1fr; }
+  .profile-grid { grid-template-columns: 1fr 1fr; }
+  .profile-cell:nth-child(2n) { border-right: none; }
+  .profile-cell:nth-child(3n) { border-right: 1px solid var(--border); }
+  .phase-grid  { grid-template-columns: 1fr; }
+  .week-grid   { grid-template-columns: 1fr; }
+  .gap-grid    { grid-template-columns: 1fr; }
+  .bk-top { flex-direction: column; gap: 6px; align-items: flex-start; }
+  .res-nav { padding: 14px 16px; }
+  .res-body { padding: 32px 16px 64px; }
+  .hero { padding: 48px 16px 48px; }
+  .ob-wrap { padding: 36px 16px 60px; }
+  .land-nav { padding: 16px; }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .phase-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* print */
+@media print {
+  #bar, .res-nav, .share-strip { display: none; }
+  .res-body { max-width: 100%; padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="bar"><div id="bar-fill"></div></div>
+
+<!-- ══ LANDING ══ -->
+<div class="screen active" id="land">
+  <nav class="land-nav">
+    <div class="logo">AL MUKIT<span>-LAB</span></div>
+    <div class="land-pill">Free · No login</div>
+  </nav>
+  <div class="hero">
+    <div class="hero-tag">Personalised self-education</div>
+    <h1 class="hero-h">Your reading roadmap.<br><em>Built for you.</em></h1>
+    <p class="hero-p">Answer six questions. Get a complete, AI-personalised architecture reading sequence — matched to your exact level, goals, and where you are in the world.</p>
+    <button class="hero-btn" id="start-btn">
+      Build my roadmap
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <p class="hero-note">2 minutes · No account needed · Saved to your browser</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="stat-n">134</span><span class="stat-l">Books</span></div>
+    <div class="stat"><span class="stat-n">9</span><span class="stat-l">Phases</span></div>
+    <div class="stat"><span class="stat-n">11</span><span class="stat-l">Tracks</span></div>
+    <div class="stat"><span class="stat-n">∞</span><span class="stat-l">Paths</span></div>
+  </div>
+  <div class="how">
+    <div class="how-label">How it works</div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-t">Answer 6 questions</div>
+        <div class="how-b">Your level, goal, weekly reading time, and location</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-t">AI analyses your profile</div>
+        <div class="how-b">134 architecture books mapped to your exact situation</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-t">Get your personal roadmap</div>
+        <div class="how-b">Your reading sequence, phases, and first-week action plan</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">04</div>
+        <div class="how-t">Start tonight</div>
+        <div class="how-b">Know exactly which book to open — and why — right now</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ONBOARDING ══ -->
+<div class="screen" id="ob">
+  <nav class="ob-nav">
+    <div class="ob-logo">AL MUKIT<span>-LAB</span></div>
+    <div class="step-track" id="step-track"></div>
+  </nav>
+  <div class="ob-wrap">
+    <div class="ob-card" id="ob-card"></div>
+  </div>
+</div>
+
+<!-- ══ GENERATING ══ -->
+<div class="screen" id="gen">
+  <div class="gen-inner">
+    <div class="gen-ring"></div>
+    <div class="gen-h">Building your academy</div>
+    <div class="gen-sub" id="gen-sub">Analysing your profile</div>
+    <ul class="gen-steps">
+      <li id="gs1"><span class="gen-ico">○</span> Reading your answers</li>
+      <li id="gs2"><span class="gen-ico">○</span> Mapping 134 books to your level</li>
+      <li id="gs3"><span class="gen-ico">○</span> Building your reading sequence</li>
+      <li id="gs4"><span class="gen-ico">○</span> Structuring your phases</li>
+      <li id="gs5"><span class="gen-ico">○</span> Writing your first-week plan</li>
+      <li id="gs6"><span class="gen-ico">○</span> Crafting personalised advice</li>
+    </ul>
+    <div class="err-msg" id="err-msg"></div>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div class="screen" id="result">
+  <nav class="res-nav">
+    <div>
+      <div class="res-title" id="res-title">Your Academy</div>
+      <div class="res-sub" id="res-sub">Personalised roadmap ready</div>
+    </div>
+    <div class="res-btns">
+      <button class="res-btn" id="restart-btn">↩ Restart</button>
+      <button class="res-btn dark" onclick="window.print()">↓ Save PDF</button>
+    </div>
+  </nav>
+  <div class="res-body" id="res-body"></div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   DATA
+══════════════════════════════════════ */
+const BOOKS = [
+  {seq:1,  t:'Architecture: A Very Short Introduction', a:'Andrew Ballantyne',          tags:['must','accessible'],    ph:0},
+  {seq:2,  t:'101 Things I Learned in Architecture School', a:'Matthew Frederick',       tags:['must','studio'],        ph:0},
+  {seq:3,  t:'Architecture Without Architects',         a:'Bernard Rudofsky',            tags:['life','history'],       ph:0},
+  {seq:4,  t:'The Architecture of Happiness',           a:'Alain de Botton',             tags:['accessible','phenom'],  ph:0},
+  {seq:5,  t:'The Story of Buildings',                  a:'Dillon & Biesty',             tags:['history','visual'],     ph:0},
+  {seq:6,  t:'A Visual Dictionary of Architecture',     a:'Ching',                       tags:['must','reference'],     ph:1},
+  {seq:7,  t:'Architectural Graphics',                  a:'Ching',                       tags:['must','drawing'],       ph:1},
+  {seq:8,  t:'Freehand Sketching + Sketching for Architecture', a:'Laseau / Travis',     tags:['drawing','studio'],     ph:1},
+  {seq:9,  t:'Design Drawing',                          a:'Ching',                       tags:['must','drawing'],       ph:1},
+  {seq:10, t:'Basic Visual Concepts and Principles',    a:'Wallschlaeger',               tags:['drawing','theory'],     ph:1},
+  {seq:11, t:'Grid Systems in Graphic Design',          a:'Müller-Brockmann',            tags:['drawing','layout'],     ph:1},
+  {seq:12, t:'Architecture: Form, Space, and Order',    a:'Ching',                       tags:['must','life','studio'], ph:1},
+  {seq:13, t:'Analysing Architecture',                  a:'Simon Unwin',                 tags:['must','studio'],        ph:2},
+  {seq:14, t:'Operative Design',                        a:'Di Mari & Yoo',               tags:['must','studio'],        ph:2},
+  {seq:15, t:'Manual of Section',                       a:'Lewis.Tsurumaki.Lewis',       tags:['must','studio'],        ph:2},
+  {seq:16, t:'Precedents in Architecture',              a:'Clark & Pause',               tags:['must','studio'],        ph:2},
+  {seq:17, t:'Twenty-Five Buildings Every Architect Should Understand', a:'Simon Unwin', tags:['must'],                 ph:2},
+  {seq:18, t:'Experiencing Architecture',               a:'Rasmussen',                   tags:['life','must','phenom'], ph:3},
+  {seq:19, t:'In Praise of Shadows',                    a:'Tanizaki',                    tags:['life','phenom'],        ph:3},
+  {seq:20, t:'The Poetics of Space',                    a:'Gaston Bachelard',            tags:['life','phenom'],        ph:3},
+  {seq:21, t:'Thinking Architecture',                   a:'Peter Zumthor',               tags:['life','phenom'],        ph:3},
+  {seq:22, t:'Atmospheres',                             a:'Peter Zumthor',               tags:['life','studio','phenom'],ph:3},
+  {seq:23, t:'The Eyes of the Skin',                    a:'Juhani Pallasmaa',            tags:['life','must','phenom'], ph:3},
+  {seq:24, t:'Space and Place',                         a:'Yi-Fu Tuan',                  tags:['phenom','urban'],       ph:3},
+  {seq:25, t:'Genius Loci',                             a:'Norberg-Schulz',              tags:['must','phenom'],        ph:3},
+  {seq:26, t:'Invisible Cities',                        a:'Italo Calvino',               tags:['life','fiction'],       ph:3},
+  {seq:27, t:'Materials for Architectural Design',      a:'Victoria Ballard Bell',       tags:['technical'],            ph:4},
+  {seq:28, t:'Building Construction Illustrated',       a:'Ching',                       tags:['must','technical'],     ph:4},
+  {seq:29, t:"The Architect's Studio Companion",        a:'Allen & Iano',                tags:['studio','technical'],   ph:4},
+  {seq:30, t:'Wood and Wood Joints',                    a:'Zwerger',                     tags:['technical'],            ph:4},
+  {seq:31, t:'Vitruvius: The Ten Books on Architecture',a:'Vitruvius',                   tags:['must','history'],       ph:5},
+  {seq:32, t:'Four Books of Architecture',              a:'Palladio',                    tags:['must','history'],       ph:5},
+  {seq:33, t:'A History of Architecture',               a:'Spiro Kostof',                tags:['must','history'],       ph:5},
+  {seq:34, t:'Programs and Manifestoes on 20th-Century Architecture', a:'Conrads',       tags:['must','theory'],        ph:5},
+  {seq:35, t:'Modern Architecture Since 1900',          a:'William J.R. Curtis',         tags:['must','history'],       ph:5},
+  {seq:36, t:'Towards a New Architecture',              a:'Le Corbusier',                tags:['life','must','theory'], ph:6},
+  {seq:37, t:'Complexity and Contradiction in Architecture', a:'Robert Venturi',         tags:['life','must','theory'], ph:6},
+  {seq:38, t:'Modern Architecture: A Critical History', a:'Kenneth Frampton',            tags:['life','must','theory'], ph:6},
+  {seq:39, t:'The Death and Life of Great American Cities', a:'Jane Jacobs',             tags:['life','urban'],         ph:6},
+  {seq:40, t:'The Architecture of the City',            a:'Aldo Rossi',                  tags:['must','urban'],         ph:6},
+  {seq:41, t:'The Timeless Way of Building',            a:'Christopher Alexander',       tags:['must','theory'],        ph:6},
+  {seq:42, t:'A Pattern Language',                      a:'Christopher Alexander',       tags:['life','must','urban'],  ph:6},
+  {seq:43, t:'Delirious New York',                      a:'Rem Koolhaas',                tags:['life','urban'],         ph:7},
+  {seq:44, t:'Architecture and Disjunction',            a:'Bernard Tschumi',             tags:['hard','theory'],        ph:7},
+  {seq:45, t:'The Production of Space',                 a:'Henri Lefebvre',              tags:['hard','theory'],        ph:7},
+  {seq:46, t:'Architectural Research Methods',          a:'Groat & Wang',                tags:['must','research'],      ph:7},
+];
+
+const STEPS = [
+  {
+    n:'1 of 6', q:"What's your name?",
+    hint:'Everything you see will be addressed to you personally.',
+    type:'text', key:'name', ph:'Your first name'
+  },
+  {
+    n:'2 of 6', q:'Where are you right now?',
+    hint:'This sets your starting point in the roadmap.',
+    type:'choice', key:'level',
+    opts:[
+      {i:'🌱', t:'Complete Beginner',     s:'No formal architecture background yet',  v:'beginner'},
+      {i:'🏛️', t:'Student — Year 1 or 2', s:'Early in formal architecture school',    v:'student_early'},
+      {i:'📐', t:'Student — Year 3–5',    s:'Mid to final years of school',           v:'student_mid'},
+      {i:'🎓', t:'Postgraduate',          s:"Master's, PhD, or academic research",    v:'postgrad'},
+      {i:'💼', t:'Working Professional',  s:'Practising architect or designer',       v:'professional'},
+      {i:'📚', t:'Self-Directed Learner', s:'Learning independently, on your own',    v:'self_directed'},
+    ]
+  },
+  {
+    n:'3 of 6', q:'What do you most want to achieve?',
+    hint:'Your sequence is weighted towards this goal.',
+    type:'choice', key:'goal',
+    opts:[
+      {i:'✏️', t:'Master Design',         s:'Spatial thinking, studio excellence',    v:'design'},
+      {i:'🧠', t:'Theory & Criticism',    s:'Ideas, manifestoes, intellectual depth', v:'theory'},
+      {i:'🔬', t:'Research & Academia',   s:'Thesis work, publishing, academic career',v:'research'},
+      {i:'🌆', t:'Urban Design',          s:'Cities, public space, infrastructure',   v:'urban'},
+      {i:'🫀', t:'Human Experience',      s:'Phenomenology, sensory, haptic design',  v:'phenom'},
+      {i:'🏢', t:'Professional Practice', s:'Running a firm, clients, business',      v:'practice'},
+    ]
+  },
+  {
+    n:'4 of 6', q:'How much time can you read each week?',
+    hint:"Be honest — a plan that fits your life beats one you abandon.",
+    type:'choice', key:'time',
+    opts:[
+      {i:'⚡', t:'Under 1 hour',  s:'Tight schedule — only what matters most', v:'minimal'},
+      {i:'📖', t:'1–3 hours',     s:'Steady, consistent weekly progress',      v:'regular'},
+      {i:'🔥', t:'3–6 hours',     s:'Serious about moving quickly',            v:'serious'},
+      {i:'🚀', t:'6+ hours',      s:'Architecture is my full focus right now', v:'immersive'},
+    ]
+  },
+  {
+    n:'5 of 6', q:'Where do you feel weakest?',
+    hint:'Pick up to 3. These become your priority gap-fills.',
+    type:'multi', key:'gaps',
+    opts:[
+      {v:'drawing',     l:'Drawing & Representation'},
+      {v:'spatial',     l:'Spatial Thinking & Composition'},
+      {v:'history',     l:'Architectural History'},
+      {v:'theory',      l:'Critical Theory & Ideas'},
+      {v:'phenom',      l:'Phenomenology & Senses'},
+      {v:'construction',l:'Construction & Materials'},
+      {v:'urban',       l:'Urbanism & City Design'},
+      {v:'structure',   l:'Structure & Engineering'},
+      {v:'research',    l:'Research Methods'},
+      {v:'practice',    l:'Professional Practice'},
+      {v:'writing',     l:'Writing & Communication'},
+      {v:'confidence',  l:'Studio Confidence & Process'},
+    ]
+  },
+  {
+    n:'6 of 6', q:'Where are you based?',
+    hint:'Your city and local context appear in your personalised advice.',
+    type:'text', key:'loc', ph:'e.g. Dhaka, Bangladesh — BUET'
+  },
+];
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let step = 0, ans = {}, roadmap = null;
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+const $  = id => document.getElementById(id);
+const esc = s => String(s).replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const ll  = v => ({beginner:'Beginner',student_early:'Year 1–2',student_mid:'Year 3–5',postgrad:'Postgraduate',professional:'Professional',self_directed:'Self-Directed'}[v]||v||'—');
+const gl  = v => ({design:'Design',theory:'Theory',research:'Research',urban:'Urban',phenom:'Phenomenology',practice:'Practice'}[v]||v||'—');
+const tl  = v => ({minimal:'<1 hr/wk',regular:'1–3 hrs/wk',serious:'3–6 hrs/wk',immersive:'6+ hrs/wk'}[v]||v||'—');
+const bp  = n => ({now:'bd-now',must:'bd-must',life:'bd-life',hard:'bd-hard',ref:'bd-must'}[n]||'bd-must');
+const bl  = n => ({now:'Start now',must:'Must read',life:'Life-changing',hard:'Difficult',ref:'Reference'}[n]||'Must read');
+
+function setBar(p){ $('bar-fill').style.width = p + '%'; }
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+/* ══════════════════════════════════════
+   LANDING
+══════════════════════════════════════ */
+$('start-btn').onclick = () => {
+  step = 0; ans = {};
+  showScreen('ob');
+  renderStep();
+  setBar(10);
+};
+
+/* ══════════════════════════════════════
+   ONBOARDING
+══════════════════════════════════════ */
+function renderStep(){
+  const s = STEPS[step];
+  const card = $('ob-card');
+
+  // dots
+  $('step-track').innerHTML = STEPS.map((_,i) =>
+    `<div class="sdot ${i < step ? 'done' : i === step ? 'now' : ''}"></div>`
+  ).join('');
+
+  // build input HTML
+  let inp = '';
+  if(s.type === 'text'){
+    inp = `<input class="q-input" id="q-inp" type="text"
+      placeholder="${esc(s.ph)}" value="${esc(ans[s.key]||'')}"
+      autocomplete="off" autocapitalize="words"
+      oninput="ans['${s.key}']=this.value;chkBtn()"
+      onkeydown="if(event.key==='Enter')fwd()">`;
+  } else if(s.type === 'choice'){
+    inp = `<div class="choices">`
+      + s.opts.map(o => `
+        <button class="choice${ans[s.key]===o.v?' on':''}" data-v="${o.v}">
+          <span class="c-ico">${o.i}</span>
+          <span class="c-body">
+            <span class="c-title">${o.t}</span>
+            <span class="c-sub">${o.s}</span>
+          </span>
+        </button>`).join('')
+      + `</div>`;
+  } else {
+    const sel = ans[s.key]||[];
+    inp = `<div class="mpills">`
+      + s.opts.map(o => `
+        <button class="mpill${sel.includes(o.v)?' on':''}" data-v="${o.v}">
+          <span class="mpill-chk">${sel.includes(o.v)?'✓':''}</span>
+          ${o.l}
+        </button>`).join('')
+      + `</div>`;
+  }
+
+  const isLast = step === STEPS.length - 1;
+  card.innerHTML = `
+    <div class="q-label">${s.n}</div>
+    <div class="q-h">${s.q}</div>
+    <div class="q-hint">${s.hint}</div>
+    ${inp}
+    <div class="q-nav">
+      ${step > 0 ? `<button class="btn-back" id="back-btn">← Back</button>` : ''}
+      <button class="btn-next" id="nxt-btn" ${canGo()?'':'disabled'}>
+        ${isLast ? 'Build my roadmap' : 'Continue'}
+        ${isLast ? '' : `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7M6 2.5l3.5 3.5L6 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+      </button>
+      ${s.type === 'multi' ? `<button class="btn-skip">Skip</button>` : ''}
+    </div>`;
+
+  // wire events after render
+  if(s.type === 'text'){
+    setTimeout(()=> $('q-inp')?.focus(), 60);
+  }
+  if(s.type === 'choice'){
+    card.querySelectorAll('.choice').forEach(el => {
+      el.onclick = () => {
+        ans[s.key] = el.dataset.v;
+        card.querySelectorAll('.choice').forEach(c => c.classList.remove('on'));
+        el.classList.add('on');
+        setTimeout(fwd, 280);
+      };
+    });
+  }
+  if(s.type === 'multi'){
+    card.querySelectorAll('.mpill').forEach(el => {
+      el.onclick = () => {
+        if(!ans[s.key]) ans[s.key] = [];
+        const idx = ans[s.key].indexOf(el.dataset.v);
+        if(idx > -1){
+          ans[s.key].splice(idx,1);
+          el.classList.remove('on');
+          el.querySelector('.mpill-chk').textContent = '';
+        } else if(ans[s.key].length < 3){
+          ans[s.key].push(el.dataset.v);
+          el.classList.add('on');
+          el.querySelector('.mpill-chk').textContent = '✓';
+        }
+      };
+    });
+  }
+
+  const nb = $('nxt-btn');  if(nb) nb.onclick  = fwd;
+  const bb = $('back-btn'); if(bb) bb.onclick  = bwd;
+  const sk = card.querySelector('.btn-skip'); if(sk) sk.onclick = fwd;
+}
+
+function canGo(){
+  const s = STEPS[step];
+  if(s.type === 'text')   return (ans[s.key]||'').trim().length > 0;
+  if(s.type === 'choice') return !!ans[s.key];
+  return true;
+}
+function chkBtn(){ const b=$('nxt-btn'); if(b) b.disabled=!canGo(); }
+function fwd(){
+  if(!canGo() && STEPS[step].type !== 'multi') return;
+  if(step < STEPS.length - 1){
+    step++;
+    renderStep();
+    setBar(10 + (step / STEPS.length) * 70);
+  } else {
+    generate();
+  }
+}
+function bwd(){
+  if(step > 0){ step--; renderStep(); setBar(10 + (step/STEPS.length)*70); }
+}
+
+/* ══════════════════════════════════════
+   GENERATE
+══════════════════════════════════════ */
+async function generate(){
+  showScreen('gen');
+  setBar(82);
+
+  const delays = [400, 1100, 2000, 2900, 3700, 4500];
+  delays.forEach((d,i) => {
+    setTimeout(() => {
+      const el = $(`gs${i+1}`); if(!el) return;
+      el.classList.add('act');
+      el.querySelector('.gen-ico').innerHTML = '<span style="display:inline-block;animation:spin .7s linear infinite">↻</span>';
+      const sub = $('gen-sub'); if(sub) sub.textContent = el.textContent.trim();
+      setTimeout(() => {
+        el.querySelector('.gen-ico').textContent = '✓';
+        el.classList.remove('act');
+        el.classList.add('dn');
+      }, 700);
+    }, d);
+  });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        messages: [{ role: 'user', content: buildPrompt() }]
+      })
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const txt = data.content.map(c => c.text||'').join('');
+    const clean = txt.replace(/```json|```/g,'').trim();
+    const si = clean.indexOf('{'), ei = clean.lastIndexOf('}');
+    if(si === -1 || ei === -1) throw new Error('No JSON in response');
+    roadmap = JSON.parse(clean.slice(si, ei+1));
+    setBar(100);
+    setTimeout(renderResult, 500);
+  } catch(e){
+    const em = $('err-msg');
+    em.style.display = 'block';
+    em.textContent = 'Could not reach the API — loading your default roadmap. (' + e.message + ')';
+    roadmap = fallback();
+    setTimeout(renderResult, 1200);
+  }
+}
+
+function buildPrompt(){
+  const lm={beginner:'Complete Beginner',student_early:'Architecture Student Year 1-2',student_mid:'Architecture Student Year 3-5',postgrad:'Postgraduate/Researcher',professional:'Working Professional',self_directed:'Self-Directed Learner'};
+  const gm={design:'Architectural Design',theory:'Theory & Critical Thinking',research:'Research & Academia',urban:'Urban Design',phenom:'Human Experience & Phenomenology',practice:'Professional Practice'};
+  const tm={minimal:'Under 1 hr/week',regular:'1–3 hrs/week',serious:'3–6 hrs/week',immersive:'6+ hrs/week'};
+  return `You are an elite architectural education strategist. Create a deeply personalised roadmap.
+
+PROFILE:
+- Name: ${ans.name||'Architect'}
+- Level: ${lm[ans.level]||ans.level}
+- Goal: ${gm[ans.goal]||ans.goal}
+- Weekly time: ${tm[ans.time]||ans.time}
+- Gaps: ${(ans.gaps||[]).join(', ')||'not specified'}
+- Location: ${ans.loc||'not specified'}
+
+BOOKS (46 in sequence):
+${BOOKS.map(b=>`[${b.seq}] "${b.t}" — ${b.a}`).join('\n')}
+
+Return ONLY valid JSON, absolutely no markdown or backticks:
+{
+  "personalMessage": "2-3 sentences addressing them by name. Be specific to their level, city, and goal. Not generic.",
+  "currentPhase": "Phase name they start at",
+  "estimatedJourney": "realistic timeframe e.g. 14 months to advanced level",
+  "trackFocus": "single most important learning track for this person",
+  "immediateBooks": [
+    {"seq":18,"title":"...","author":"...","why":"2 sentences why THIS person needs THIS book NOW — reference their level/city/goal","badge":"now","howToRead":"one sentence on approach"}
+  ],
+  "phases": [
+    {"name":"...","timeframe":"Month 1-3","books":[1,2,3],"mindset":"...","priority":"first book title to start"}
+  ],
+  "weekOnePlan": [
+    {"day":"Day 1–2","task":"specific concrete action","book":"exact book title or null"}
+  ],
+  "personalInsight": "2-3 sentences deeply specific to their city/country, their level, and their stated goal. Name the city if given.",
+  "warning": "one honest warning specific to their exact profile and goal"
+}
+
+Rules:
+- immediateBooks: exactly 5, chosen specifically for this person's profile
+- phases: exactly 4, with timeframes scaled to their weekly reading time
+- weekOnePlan: exactly 4 entries (Day 1-2, Day 3-4, Day 5-6, Day 7)
+- Make it feel like it was written personally for them, not generated`;
+}
+
+function fallback(){
+  const phMap={beginner:0,student_early:1,student_mid:2,postgrad:5,professional:4,self_directed:1};
+  const ph = phMap[ans.level]||1;
+  const phNames=['Awakening','Drawing & Seeing','Spatial Analysis','Phenomenology','Construction','History','Theory','Advanced Theory'];
+  return {
+    personalMessage:`${ans.name||'Welcome'}, your roadmap is built around your current level and your focus on ${gl(ans.goal).toLowerCase()}. Every book below was chosen specifically for where you are right now — not where the curriculum says you should be.`,
+    currentPhase:`Phase ${ph}: ${phNames[ph]}`,
+    estimatedJourney: ans.time==='immersive'?'8–10 months to advanced':ans.time==='serious'?'12–14 months':ans.time==='minimal'?'24+ months':'16–18 months',
+    trackFocus: gl(ans.goal),
+    immediateBooks:[
+      {seq:18,t:'Experiencing Architecture',a:'Rasmussen',why:'The single best introduction to what architecture actually feels like. Rasmussen teaches you to notice what you have always walked past without seeing.',badge:'now',howToRead:'One chapter per day, then visit a real building and observe through what you just read.'},
+      {seq:12,t:'Architecture: Form, Space, and Order',a:'Ching',why:'The grammar of spatial composition — the book you will return to throughout your entire career. Essential studio companion from day one.',badge:'must',howToRead:'Study it alongside your current studio project. Apply each principle immediately.'},
+      {seq:13,t:'Analysing Architecture',a:'Simon Unwin',why:'The method for reading any building analytically. After this book, you will never look at a building the same way.',badge:'must',howToRead:'Read a chapter, then immediately analyse a real building using Unwin\'s method. Do not skip the analysis.'},
+      {seq:22,t:'Atmospheres',a:'Peter Zumthor',why:'Eighty pages that contain more architectural wisdom than most five-hundred-page textbooks. Use it as a design checklist for every project you ever design.',badge:'life',howToRead:'Read in one sitting. Then re-read the 9 atmospheres before every design begins.'},
+      {seq:2, t:'101 Things I Learned in Architecture School',a:'Frederick',why:'101 short lessons that plant the professional architectural mindset before anything else. Every insight here will deepen as you read more.',badge:'now',howToRead:'One lesson each morning. Revisit the whole book after every major phase.'},
+    ],
+    phases:[
+      {name:'Phase 1: Foundation',timeframe:'Month 1–3',books:[6,7,8,9,12],mindset:'Learning to see and communicate architecturally',priority:'Architecture: Form, Space, and Order'},
+      {name:'Phase 2: Analysis', timeframe:'Month 3–6',books:[13,14,15,16,17],mindset:'Reading buildings with analytical rigour',priority:'Analysing Architecture'},
+      {name:'Phase 3: Experience',timeframe:'Month 6–9',books:[18,19,20,21,22,23],mindset:'Designing for human experience and all five senses',priority:'Experiencing Architecture'},
+      {name:'Phase 4: Theory',   timeframe:'Month 9–14',books:[36,37,38,39,40],mindset:'Taking positions in architectural discourse',priority:'Towards a New Architecture'},
+    ],
+    weekOnePlan:[
+      {day:'Day 1–2',task:'Read Architecture: A Very Short Introduction — all 100 pages. Write one sentence answering: what is architecture for?',book:'Architecture: A Very Short Introduction'},
+      {day:'Day 3–4',task:'Begin Experiencing Architecture, one chapter per day. After each chapter, visit a real building and observe exactly what Rasmussen describes.',book:'Experiencing Architecture'},
+      {day:'Day 5–6',task:'Read Atmospheres in one sitting. Make a list of which of the 9 atmospheric qualities you noticed in the last building you visited.',book:'Atmospheres'},
+      {day:'Day 7',  task:'Spend 20 minutes sketching 3 buildings from observation — no photos, draw from real life. Then write one paragraph: why does architecture matter to you personally? Date it.',book:null},
+    ],
+    personalInsight:`Start with what you can see and feel before you move to what you can think and argue. The books in your first phase are generous teachers — let them open the discipline before you enter its complexities and contradictions.`,
+    warning:`The hardest phase will not be the theory. It will be the moment your taste outgrows your technical ability — when you know what you want but cannot yet build it. The solution is always to draw more, not to read more.`,
+  };
+}
+
+/* ══════════════════════════════════════
+   RESULT
+══════════════════════════════════════ */
+function renderResult(){
+  showScreen('result');
+  setBar(100);
+
+  const d = roadmap;
+  const name = ans.name || 'Architect';
+  $('res-title').innerHTML = `Welcome, <em>${name}</em>`;
+  $('res-sub').textContent  = [d.currentPhase, d.estimatedJourney, d.trackFocus].filter(Boolean).join(' · ');
+
+  const gapMap = {
+    drawing:[7,8,9,15], spatial:[12,13,14], history:[31,33,35],
+    theory:[36,37,38], phenom:[18,19,22,23], construction:[28,29,30],
+    urban:[39,40,42,43], structure:[29], research:[46],
+    practice:[], writing:[13,38], confidence:[2,12,14],
+  };
+
+  const traits = [
+    {l:'Level',   v: ll(ans.level)},
+    {l:'Goal',    v: gl(ans.goal)},
+    {l:'Time',    v: tl(ans.time)},
+    {l:'Location',v: (ans.loc||'—').split('—')[0].trim().split(',')[0].trim()||'—'},
+    {l:'Track',   v: d.trackFocus||'—'},
+    {l:'Journey', v: d.estimatedJourney||'—'},
+  ];
+
+  let h = '';
+
+  /* Personal message */
+  if(d.personalMessage){
+    h += `<div class="msg-card">
+      <div class="msg-from">For ${name}</div>
+      <div class="msg-body">${d.personalMessage}</div>
+    </div>`;
+  }
+
+  /* Profile */
+  h += `<div class="sec">
+    <div class="sec-label">Your profile</div>
+    <div class="profile-grid">
+      ${traits.map(t=>`<div class="profile-cell"><div class="pc-l">${t.l}</div><div class="pc-v">${t.v}</div></div>`).join('')}
+    </div>
+  </div>`;
+
+  /* Immediate books */
+  if(d.immediateBooks?.length){
+    h += `<div class="divider"><span>Your first five books</span></div>
+    <div class="sec">
+      <div class="sec-label">Start here</div>
+      <div class="sec-h">Books to open this week</div>`;
+    d.immediateBooks.forEach((b,i) => {
+      h += `<div class="book-item">
+        <div class="bk-idx">${i+1}</div>
+        <div class="bk-content">
+          <div class="bk-top">
+            <div class="bk-title">${b.title||b.t||''}</div>
+            <span class="bk-badge ${bp(b.badge)}">${bl(b.badge)}</span>
+          </div>
+          <div class="bk-author">${b.author||b.a||''}</div>
+          <div class="bk-why">${b.why||''}</div>
+          ${b.howToRead ? `<div class="bk-how">→ ${b.howToRead}</div>` : ''}
+        </div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
+
+  /* Phases */
+  if(d.phases?.length){
+    h += `<div class="divider"><span>Your roadmap</span></div>
+    <div class="sec">
+      <div class="sec-label">Structured progression</div>
+      <div class="sec-h">Learning phases</div>
+      <div class="phase-grid">`;
+    d.phases.forEach(ph => {
+      const bkNames = (ph.books||[]).slice(0,4)
+        .map(s=>{ const b=BOOKS.find(x=>x.seq===s); return b?b.t:`Book ${s}`; })
+        .join(', ');
+      h += `<div class="phase-card">
+        <div class="ph-time">${ph.timeframe||''}</div>
+        <div class="ph-name">${ph.name||''}</div>
+        <div class="ph-books">${bkNames}</div>
+        ${ph.mindset  ? `<div class="ph-mind">${ph.mindset}</div>` : ''}
+        ${ph.priority ? `<div class="ph-start">→ ${ph.priority}</div>` : ''}
+      </div>`;
+    });
+    h += `</div></div>`;
+  }
+
+  /* Week one */
+  if(d.weekOnePlan?.length){
+    h += `<div class="divider"><span>First week</span></div>
+    <div class="sec">
+      <div class="sec-label">Immediate action</div>
+      <div class="sec-h">What to do this week</div>
+      <div class="week-grid">`;
+    d.weekOnePlan.forEach(w => {
+      h += `<div class="week-card">
+        <div class="wk-day">${w.day||''}</div>
+        <div class="wk-task">${w.task||''}</div>
+        ${w.book ? `<div class="wk-book">${w.book}</div>` : ''}
+      </div>`;
+    });
+    h += `</div></div>`;
+  }
+
+  /* Advice + warning */
+  h += `<div class="divider"><span>Mentor advice</span></div><div class="sec">`;
+  if(d.personalInsight){
+    h += `<div class="advice-card" style="margin-bottom:10px;">
+      <div class="advice-label">For your specific situation</div>
+      <div class="advice-body">${d.personalInsight}</div>
+    </div>`;
+  }
+  if(d.warning){
+    h += `<div class="warn-card">
+      <div class="warn-label">Honest warning</div>
+      <div class="warn-body">${d.warning}</div>
+    </div>`;
+  }
+  h += `</div>`;
+
+  /* Gaps */
+  const gaps = ans.gaps||[];
+  if(gaps.length){
+    h += `<div class="divider"><span>Your gaps</span></div>
+    <div class="sec">
+      <div class="sec-label">Targeted reading</div>
+      <div class="sec-h">Books chosen for your weaknesses</div>
+      <div class="gap-grid">`;
+    gaps.forEach(g => {
+      const bks = (gapMap[g]||[]).map(s=>BOOKS.find(b=>b.seq===s)).filter(Boolean).slice(0,3);
+      if(!bks.length) return;
+      h += `<div class="gap-card">
+        <div class="gap-lbl">${g.replace(/_/g,' ')}</div>
+        ${bks.map(b=>`<div class="gap-bk">${b.t}<span class="gap-auth"> — ${b.a}</span></div>`).join('')}
+      </div>`;
+    });
+    h += `</div></div>`;
+  }
+
+  /* Share strip */
+  h += `<div class="share-strip">
+    <div class="share-h">Share this tool</div>
+    <div class="share-p">Know another architecture student who deserves a personalised roadmap?</div>
+    <div class="share-btns">
+      <button class="share-btn light" onclick="navigator.clipboard.writeText(location.href.split('?')[0]).then(()=>alert('Copied!')).catch(()=>prompt('Link:',location.href))">Copy link</button>
+      <button class="share-btn ghost" onclick="window.print()">Save as PDF</button>
+      <button class="share-btn ghost" id="rb2">Start over</button>
+    </div>
+    <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div style="font-size:13px;color:rgba(255,255,255,.75);font-weight:500;">Made with &#10084;&#65039; by <strong style="color:#fff;">Al Mukit</strong></div>
+      <div style="font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.3px;">&copy; 2026 Al Mukit &mdash; AL MUKIT-LAB. All rights reserved.</div>
+    </div>
+  </div>`;
+
+  $('res-body').innerHTML = h;
+
+  /* wire restart buttons */
+  const restart = () => { step=0; ans={}; roadmap=null; showScreen('land'); setBar(0); };
+  $('restart-btn').onclick = restart;
+  const rb2 = $('rb2'); if(rb2) rb2.onclick = restart;
+}
+</script>
+</body>
+</html>
